@@ -1,0 +1,17 @@
+{
+	"overview": {
+		"title": "Overview"
+	},
+	"modeling-data": {
+		"title": "Modeling Data"
+	},
+	"reading-data": {
+		"title": "Reading Data"
+	},
+	"reactivity": {
+		"title": "Reactivity"
+	},
+	"typescript": {
+		"title": "TypeScript"
+	}
+}

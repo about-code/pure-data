@@ -1,0 +1,8 @@
+/node_modules/
+/bower_components/
+/doc/
+/dist/
+/test/snippnets
+/resources/
+/src/data/decorator/**/*.js
+*.zip

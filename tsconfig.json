@@ -1,0 +1,49 @@
+{
+    "version": "1.5.0-alpha",
+    "compilerOptions": {
+        "target": "es5",
+        "module": "amd",
+        "declaration": false,
+        "noImplicitAny": false,
+        "removeComments": true,
+        "noLib": false,
+        "preserveConstEnums": true,
+        "suppressImplicitAnyIndexErrors": true
+    },
+    "filesGlob": [
+        "./**/*.ts",
+        "!./node_modules/**/*.ts"
+    ],
+    "files": [
+        "./bower_components/rxjs/ts/rx-lite.d.ts",
+        "./bower_components/rxjs/ts/rx.aggregates.d.ts",
+        "./bower_components/rxjs/ts/rx.all.d.ts",
+        "./bower_components/rxjs/ts/rx.async-lite.d.ts",
+        "./bower_components/rxjs/ts/rx.async-tests.ts",
+        "./bower_components/rxjs/ts/rx.async.d.ts",
+        "./bower_components/rxjs/ts/rx.backpressure-lite.d.ts",
+        "./bower_components/rxjs/ts/rx.backpressure-tests.ts",
+        "./bower_components/rxjs/ts/rx.backpressure.d.ts",
+        "./bower_components/rxjs/ts/rx.binding-lite.d.ts",
+        "./bower_components/rxjs/ts/rx.binding.d.ts",
+        "./bower_components/rxjs/ts/rx.coincidence-lite.d.ts",
+        "./bower_components/rxjs/ts/rx.coincidence.d.ts",
+        "./bower_components/rxjs/ts/rx.d.ts",
+        "./bower_components/rxjs/ts/rx.experimental.d.ts",
+        "./bower_components/rxjs/ts/rx.joinpatterns.d.ts",
+        "./bower_components/rxjs/ts/rx.lite.d.ts",
+        "./bower_components/rxjs/ts/rx.testing.d.ts",
+        "./bower_components/rxjs/ts/rx.time-lite.d.ts",
+        "./bower_components/rxjs/ts/rx.time.d.ts",
+        "./bower_components/rxjs/ts/rx.virtualtime.d.ts",
+        "./src/_typedefs/data/Property.d.ts",
+        "./src/data/decorator/entity.ts",
+        "./src/data/decorator/property/default.ts",
+        "./src/data/decorator/property/dtype.ts",
+        "./src/data/decorator/property/flags.ts",
+        "./src/data/decorator/property/inverse.ts",
+        "./src/data/decorator/property/property.ts",
+        "./src/data/decorator/property/serialize.ts",
+        "./src/data/decorator/property/type.ts"
+    ]
+}

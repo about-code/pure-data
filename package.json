@@ -1,0 +1,13 @@
+{
+  "name": "pure-data",
+  "version": "0.0.0",
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-contrib-copy": "^0.8.0",
+    "grunt-contrib-jshint": "~0.7.2",
+    "grunt-contrib-requirejs": "^0.4.4",
+    "grunt-jsdoc": "^0.5.8",
+    "intern": "^2.1.1"
+  }
+}
