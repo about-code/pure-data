@@ -177,8 +177,4 @@ declare([Model], {
     }
 });
 ```
-
-### Writing Data / Saving Entities TBD
-
-
 Copyright (c) 2015 devpunk
