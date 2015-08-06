@@ -59,8 +59,8 @@ The following property configuration options are available:
 | `parser` | function |                | null | Function or name of a entity method, used to parse a value when its owning entity is instantiated from a plain object (deserialization).
 | `plain`   | string   |                | null | The name of the property in the entity's plain object representation. Only required if the names differ. An empty string will prevent a property from being serialized in any scenario.
 | `flags`    | string   | FK | "" | A string with comma-separated flags, each flag enabling particular treatment.
-| `getValue` TODO| function |                | null | A getter to compute a dynamic value.
-| `setValue` TODO| function |                | null| A setter to set a computed property
+| `getValue`| function |                | null | A getter to compute a dynamic value.
+| `setValue`| function |                | null | A setter to set a computed property
 
 ### Entity Management
 

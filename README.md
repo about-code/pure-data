@@ -1,14 +1,16 @@
 Pure-Data is a data modeling library for JavaScript.
 
 #### Project Status: Experimental!
-Yet I strive for making things sound ;-) Help me by submitting issues.
+This (spare-time) project is in quite early stage. Don't hesitate to have a look
+at its documented features but be aware that it is not stable enough to be used
+for serious things.
 
 #### Key features:
 - Modeling entities and entity associations (One/Many-to-One/Many)
 - Model consistency due to change propagation among related entities
 - Entity management
-- Deserialization from plain JSON into an entity object graph
-- Fine-grained control over entity serialization
+- Deserializing and merging of plain JSON into the client-side object graph
+- Fine-grained control over serialization
 - Reactivity and observable streams with RxJS
 - Adaptable to different data store implementations
 - Dirty state
@@ -25,4 +27,4 @@ Yet I strive for making things sound ;-) Help me by submitting issues.
 - EcmaScript 5+ (Object.defineProperty, Array Extras)
 
 #### Getting Started:
-- Have a look into the [Guide](./guide)
+- Have a look at the [Guide](./guide/contents.md)
