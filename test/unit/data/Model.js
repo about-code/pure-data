@@ -466,7 +466,7 @@ define([
             var data = null;
 
             // test scenario
-            data = instance.toPlainValue({scenario: "PUT"});
+            data = instance.serialize({scenario: "PUT"});
             assert.strictEqual(data.familyname, "Simpson");
             assert.strictEqual(data.firstname, "Homer");
             assert.isTrue(typeof data.age === "undefined", "property configured to be serialized only for scenario 'GET,POST' but was serialized for 'PUT'");
@@ -477,7 +477,7 @@ define([
         serialization__depth_0: function() {
             var manager = new EntityManager(),
                 homer = manager.create(Person, {id: 1, familyname: "Simpson", firstname: "Homer"}),
-                data = homer.toPlainValue({serializeDepth: 0});
+                data = homer.serialize({serializeDepth: 0});
             assert.strictEqual(data, homer.id, "Serialization depth of 0 did not resolve to entity id. Entity was serialized with depth 1 or deeper");
         },
 
@@ -488,7 +488,7 @@ define([
                 data = null;
 
             homer.get("children").push(bart);
-            data = homer.toPlainValue({serializeDepth: 1});
+            data = homer.serialize({serializeDepth: 1});
 
             assert.strictEqual(data.children[0], 2, "Bart entity was not serialized to ID");
         },
@@ -500,7 +500,7 @@ define([
             var data = null;
 
             homer.get("children").push(bart);
-            data = homer.toPlainValue();
+            data = homer.serialize();
 
             assert.strictEqual(data.firstname, "Homer");
             assert.strictEqual(data.children[0].firstname, "Bart", "Referenced model classes not serialized");
@@ -513,7 +513,7 @@ define([
             data = null;
 
             homer.get("loves").push(homer);
-            data = homer.toPlainValue({serializeDepth: 3});
+            data = homer.serialize({serializeDepth: 3});
 
             assert.strictEqual(data.firstname, "Homer");
             assert.strictEqual(data.loves[0].firstname, "Homer");
@@ -539,7 +539,7 @@ define([
             homer.get("loves").push(homer);
 
             // MAX DEPTH
-            data = homer.toPlainValue();
+            data = homer.serialize();
             var x = data, i;
             for (i = 0; i < MAX; i += 1) {
                 if (i < MAX-1) {
@@ -571,7 +571,7 @@ define([
             homer.set("loves", homer);
 
             // MAX DEPTH
-            data = homer.toPlainValue();
+            data = homer.serialize();
             var x = data, i;
             for (i = 0; i < MAX; i += 1) {
                 if (i < MAX-1) {
@@ -594,7 +594,7 @@ define([
                     }
                 }),
                 instance = manager.create(Person),
-                data = instance.toPlainValue();
+                data = instance.serialize();
 
             assert.isTrue(data.hasOwnProperty("surname") && data.surname === "Simpson", "'familyname' should have been mapped to 'surname'");
             assert.isTrue(data.familyname === undefined, "'familyname' still exists although it should have been mapped to 'surname'");

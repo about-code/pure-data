@@ -65,7 +65,7 @@ define([
 
         /**
          * The serialization depth to use when saving instances or calling
-         * toPlainValue(). Default is 1. Use -1 to serialize up to maximum depth
+         * serialize(). Default is 1. Use -1 to serialize up to maximum depth
          * (currently 25). The value may be temporarily overwritten by options
          * passed to the particular methods which deal with serialization.
          * @type {number}
@@ -91,31 +91,52 @@ define([
                 parseSchema.call(this, true);
             } else {
                 parseSchema.call(this, false);
-                this.merge(data);
+                this.deserialize(data);
             }
             this.setDirty(false);
         },
 
         init: function (data, entityManager) {
             this.inherited(arguments);
-            this.merge(data);
+            this.deserialize(data);
             this.setDirty(false);
         },
 
         /**
-         * Merge is meant to be used for setting data on instances which have
-         * already been created.
+         * Returns a plain JavaScript object based on the model's schema.
+         * @param {object} opts Options.
+         * ```
+         * {
+         *     serializeDepth: number,
+         *     scenario: string
+         * }
+         * ```
+         * @return {object}
+         */
+        serialize: function(opts) {
+            return serialize.call(this, opts);
+        },
+
+        /**
+         * Deserializes/merges a plain data object into a model instance.
          *
-         * Depending on the structure of `data` as well as the model's schema,
-         * initializing an entity may cause associated entities to be merged or
-         * instantiated and initialized.
+         * Depending on the structure of `data` as well as the target model's schema,
+         * initializing an entity causes related entities to be deserialized or
+         * instantiated and initialized as well.
          *
          * @param props {(object|string|number)} data
          */
-        merge: function(data) {
+        deserialize: function(data, opts) {
             if (type.isObject(data)) {
-                deserialize.call(this, data);
+                return deserialize.call(this, data, opts);
             }
+        },
+
+        toJSON: function() {
+            return serialize.call(this, {
+                scenario: "*",
+                serializeDepth: this.$serializeDepth
+            });
         },
 
         get: function(propName) {
@@ -245,35 +266,6 @@ define([
             return this.$entityManager.fetch(this);
         },
 
-        /**
-         * Returns a plain JavaScript object based on the model's schema.
-         * @param {object} opts Options.
-         * ```
-         * {
-         *     serializeDepth: number,
-         *     scenario: string
-         * }
-         * ```
-         * @return {object}
-         */
-        toPlainValue: function(opts) {
-            return serialize.call(this, opts);
-        },
-
-        /**
-         * Initializes a Model instance with properties from 'obj'.
-         * @param {object} obj The plain object to initialize a Model instance with. Only schema properties will be copied.
-         */
-        fromPlainValue: function(obj, opts) {
-            return deserialize.call(this, obj, opts);
-        },
-
-        toJSON: function() {
-            return serialize.call(this, {
-                scenario: "*",
-                serializeDepth: this.$serializeDepth
-            });
-        },
 
         destroy: function () {
             var p, ownProperties = this.$properties;

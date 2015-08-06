@@ -83,7 +83,7 @@ define([
             }
         },
 
-        merge: function(data) {
+        deserialize: function(data) {
             lang.mixin(this, data);
         },
 

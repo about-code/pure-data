@@ -73,11 +73,11 @@ define([
          * A factory method which returns an entity instance. If there is not yet
          * an entity instance with the same identity (constructor + id) as to be
          * created, then a new instance is created with the given constructor using 'new'
-         * operator. If there already exists an instance, however, we merge() the given
-         * `props` into the existing instance and return it. If there is no `merge()`
+         * operator. If there already exists an instance, however, we `deserialize()` the given
+         * `props` into the existing instance and return it. If there is no `deserialize()`
          * method the existing entity's constructor will be invoked as normal function,
-         * that is, without the `new` operator. Responsibility of `merge()` (and if there
-         * is no `merge()`, then responsibility of the constructor) is, to properly mix
+         * that is, without the `new` operator. Responsibility of `deserialize()` (and if there
+         * is no `deserialize()`, then responsibility of the constructor) is, to properly mix
          * in `props` into an existing entity instance.
          * Note that when a new entity instance is created, the ID passed via `props`
          * will overwrite any ID which might have been set in the constructor
@@ -145,9 +145,9 @@ define([
                 // There is an existing entity. No need to create a new one.
                 // In this case we mix the given properties into the existing
                 // entity instance. Knowledge about how to do this properly is
-                // implemented in an entity's merge() method
-                if (type.isFunction(entity.merge)) {
-                    entity.merge(props);
+                // implemented in an entity's deserialize() method
+                if (type.isFunction(entity.deserialize)) {
+                    entity.deserialize(props);
                 } else {
                     entity.constructor(props, this);
                 }
@@ -306,7 +306,7 @@ define([
                 }
                 promise = this._storeAdapter.fetch(entity.constructor, entity.id);
                 return promise.then(function(entityData) {
-                    entity.merge(entityData);
+                    entity.deserialize(entityData);
                     entity.setDirty(false);
                     return entity;
                 });
