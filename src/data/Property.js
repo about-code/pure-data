@@ -61,13 +61,12 @@
 define([
     "dojo/_base/declare",
     "dojo/_base/lang",
-    "dojo/aspect",
     "rxjs",
     "./Observable",
     "../util/type",
     "../util/log!data/Property",
     "../util/defaults"
-], function(declare, lang, aspect, Rx, Observable, type, log, defaults) {
+], function(declare, lang, Rx, Observable, type, log, defaults) {
 
     var BehaviorSubject = Rx.BehaviorSubject;
 
@@ -248,6 +247,7 @@ define([
             isStub: true,
             onNext: function(newValue, oldValue, name) {}
         },
+        _isStable: true,
         dirty: false,
         errors: null,
         value: null,
@@ -308,43 +308,67 @@ define([
          */
         put: function(newValue) {
 
-            var owner = this.owner,
+            var that = this,
+                owner = this.owner,
                 name = this.metadata.name,
                 oldValue = this.valueOf(),
+                tmpValue = null,
                 newValueComputed; // see BehaviorSubject
 
             if (oldValue !== newValue) {
-                if (typeof this.metadata.setValue === 'function') {
-                    this.metadata.setValue.call(owner, newValue, owner);
-                    newValue = this.valueOf(true);
+                if (this._isStable === false) {
+                    log.warn("Attempt to write value " + JSON.stringify(newValue) +
+                        " to property '" + name + "' of ", owner,
+                        " while the property is just about to be written. Value"+
+                        " won't persist after the outer write has finished. Did"+
+                        " you attempt to write the property in a property"+
+                        " observer or setValue()-callback?"
+                    );
+                    log.trace();
+                    this.value = newValue;
+                } else {
+                    this._isStable = false;
+                    this.value = newValue;
+                    this.dirty = true;
+
+                    // register listener on array value to notify observers about
+                    // changes to the array
+                    if (type.isArray(newValue)) {
+                        Array.observeSync(newValue, this._notifyArrayChanged);
+                    }
+                    if (type.isArray(oldValue)) {
+                        Array.unobserveSync(oldValue, this._notifyArrayChanged);
+                    }
+
+                    if (typeof this.metadata.setValue === 'function') {
+                        tmpValue = this.metadata.setValue.call(owner, newValue);
+                        if (tmpValue !== undefined) {
+                            newValue = tmpValue;
+                        }
+                    }
+
+                    // write new value to value stream
+                    this._valueStream.onNext(this.value, oldValue, name);
+
+                    // generate change record and write it to changes stream
+                    // (see Observable#notifyChanged)
+                    changeRecord = {
+                        type: "update",
+                        name: name,
+                        object: owner,
+                        oldValue: oldValue,
+                    };
+                    this.notifyChanged([changeRecord]);
+
+                    // Guarantee temporary changes introduced by change listeners won't last.
+                    // Otherwise the semantics of the assignment operator is overloaded by enabling
+                    //  x.p =   "value";
+                    //  x.p === "value"; // => false
+                    // because "value" might have been mutated by some property
+                    // listener which has been invoked during the assignment
+                    this.value = newValue;
+                    this._isStable = true;
                 }
-
-                // register listener on array value to notify observers about
-                // changes to the array
-                if (type.isArray(newValue)) {
-                    Array.observeSync(newValue, this._notifyArrayChanged);
-                }
-                if (type.isArray(oldValue)) {
-                    Array.unobserveSync(oldValue, this._notifyArrayChanged);
-                }
-
-                this.value = newValue;
-                this.dirty = true;
-
-                // TODO: keep oldValue and changeRecord if event delivery is delayed...
-
-                // write new value to value stream
-                this._valueStream.onNext(this.value, oldValue, name);
-
-                // generate change record and write it to changes stream
-                // (see Observable#notifyChanged)
-                changeRecord = {
-                    type: "update",
-                    name: name,
-                    object: owner,
-                    oldValue: oldValue,
-                };
-                this.notifyChanged([changeRecord]);
             }
         },
 

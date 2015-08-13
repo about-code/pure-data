@@ -96,11 +96,48 @@ define([
 			console.warn("Not yet implemented.");
 		},
 
+
+		setValue_return: function() {
+			var manager = new EntityManager(),
+				T = declare([Model], {
+					$schema: {
+						prop: {default: "", setValue: function (newValue) {
+							return "Hallo-Rewritten";
+						}}
+					}
+				});
+			var t = new T();
+			t.prop = "Hallo";
+			assert.strictEqual(t.prop, "Hallo-Rewritten");
+		},
+
+		setValue_rewrite: function() {
+			var manager = new EntityManager(),
+				T = declare([Model], {
+					$schema: {
+						prop: {
+							default: "",
+							setValue: function (newValue) {
+								// setValue() is a side-effect of t.prop = "Hallo"!
+								// Note that the next statement means we try to
+								// write to t.prop _while_ the statement t.prop = "Hallo"
+								// is processed. In this scenario the rewrite value
+								// gets active "asynchronously."
+								this.prop = "Hallo-Rewritten";
+								assert.strictEqual(this.prop, "Hallo-Rewritten");
+							}
+						}
+					}
+				});
+			var t = new T();
+			t.prop = "Hallo";
+			assert.strictEqual(t.prop, "Hallo");
+		},
+
 		/**
 		 * Observing a property should include observing changes to an array
 		 * if the property value is an array.
 		 */
-
 		subscribe__to_changes_stream: function() {
 			var manager = new EntityManager(),
 				T = declare([Model], {
