@@ -75,7 +75,7 @@ module.exports = function (grunt) {
         },
         bower: {
             all: {
-                rjsConfig: "src/config.js",
+                rjsConfig: "src/config.amd.js",
                 options: {
                     baseUrl: "src",
                     exclude: []
@@ -95,7 +95,7 @@ module.exports = function (grunt) {
                 require: '', // Optional: Module to require for the build (Default: nothing)
                 requires: [], // Optional: Array of modules to require for the build (Default: nothing)
                 cwd: './', // Directory to execute build within
-                dojoConfig: 'src/config.js', // Optional: Location of dojoConfig (Default: null),
+                dojoConfig: 'src/config.amd.js', // Optional: Location of dojoConfig (Default: null),
                 // Optional: Base Path to pass at the command line
                 // Takes precedence over other basePaths
                 // Default: null
@@ -114,7 +114,7 @@ module.exports = function (grunt) {
               require: '', // Optional: Module to require for the build (Default: nothing)
               requires: [], // Optional: Array of modules to require for the build (Default: nothing)
               cwd: './', // Directory to execute build within
-              dojoConfig: 'src/config.js', // Optional: Location of dojoConfig (Default: null),
+              dojoConfig: 'src/config.amd.js', // Optional: Location of dojoConfig (Default: null),
               // Optional: Base Path to pass at the command line
               // Takes precedence over other basePaths
               // Default: null
@@ -125,7 +125,7 @@ module.exports = function (grunt) {
             compile: {
                 options: {
                     out: "./build/pure-data.min.js",
-                    mainConfigFile: "src/config.js",
+                    mainConfigFile: "src/config.amd.js",
                     name: "main",
                     optimize: "uglify2",
                     preserveLicenseComments: false,
