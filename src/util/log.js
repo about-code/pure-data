@@ -16,10 +16,18 @@
  * ```
  * @module util/log
  */
-define(["dojo/_base/config"], function(config) {
+define(["pure/config"], function(config) {
 
     //var logDisabled = !(!!config.logging);
-    var logDisabled = false;
+    var loglevels = {
+            "none":  0,
+            "error": 1,
+            "warn":  2,
+            "info":  3,
+            "debug": 4,
+            "all":   5
+        },
+        loglevel = loglevels[config.loglevel];
     function print(type, msg, args) {
         if (console && console[type]) {
             args = Array.prototype.slice.call(args);
@@ -45,30 +53,38 @@ define(["dojo/_base/config"], function(config) {
              * @method
              * @param {string} message
              */
-            error: logDisabled ? noOp : function(msg) {
+            error: loglevel < loglevels.error ? noOp : function(msg) {
                 print("error", sourceId + msg, arguments);
             },
             /**
              * @method
              * @param {string} message
              */
-            warn: logDisabled ? noOp :function(msg) {
+            warn: loglevel < loglevels.warn ? noOp :function(msg) {
                 print("warn", sourceId + msg, arguments);
             },
             /**
              * @method
              * @param {string} message
              */
-            info: logDisabled ? noOp :function(msg) {
+            info:  loglevel < loglevels.info ? noOp :function(msg) {
                 print("info", sourceId + msg, arguments);
             },
             /**
              * @method
              * @param {string} message
              */
-            debug: logDisabled ? noOp :function(msg) {
+            debug:  loglevel < loglevels.debug ? noOp :function(msg) {
                 print("debug", sourceId + msg, arguments);
             },
+            /**
+             * @method
+             * @param {string} message
+             */
+            trace:  loglevel < loglevels.debug ? noOp :function(msg) {
+                print("debug", sourceId + msg, arguments);
+                print("trace", sourceId + "", arguments);
+            }
         };
     }
 

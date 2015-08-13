@@ -1,4 +1,5 @@
 require([
+	"pure/config",
 	"collection/Array",
 	"collection/ArraySet",
 	"collection/EntitySet",
