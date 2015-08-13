@@ -321,8 +321,6 @@ define([
             // remove ownership between maggie and puppet. Expect changes on
             // maggie to be reflected inversely in puppet.
             maggie.owns.splice(0, 1);
-
-            assert.strictEqual(true, true);
             assert.strictEqual(puppet.ownedBy, null, "Puppet still owned by maggie although maggie does not own puppet anymore.");
         },
 

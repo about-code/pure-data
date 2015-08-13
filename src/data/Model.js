@@ -628,8 +628,8 @@ define([
             return plain;
         }
 
-        function _serializeModel(m) {
-            if (currentDepth > opts.serializeDepth) { return getId(m); }
+        function _serializeModel(model) {
+            if (currentDepth > opts.serializeDepth) { return getId(model); }
             var plain = {},
                 p = "",
                 p_alias = null,
@@ -637,9 +637,9 @@ define([
                 p_formatter = null,
                 p_formatted = "",
                 tmp = null,
-                schema = m.$schema;
+                schema = model.$schema;
             for (p in schema) {
-                if (schema.hasOwnProperty(p) && m.hasOwnProperty(p)) {
+                if (schema.hasOwnProperty(p) && model.hasOwnProperty(p)) {
                     p_scenario = schema[p].get("scenario");
                     if (forceSerializeAll || p_scenario.indexOf("*") >= 0 || opts.scenario === p_scenario) {
                         p_alias = schema[p].get("plain");
@@ -651,16 +651,16 @@ define([
                         }
                         if (type.isFunction(p_formatter)) {
                             // formatter property config is a function
-                            p_formatted = p_formatter.call(that, m.get(p), p);
-                        } else if (type.isFunction(m[p_formatter])) {
+                            p_formatted = p_formatter.call(that, p, model[p]);
+                        } else if (type.isFunction(model[p_formatter])) {
                             // formatter property config refers to a method on the entity
-                            p_formatted = m[p_formatter].call(that, m.get(p), p);
-                        } else if (m.property(p).hasFlag("FK")) {
+                            p_formatted = model[p_formatter].call(that, p, model[p]);
+                        } else if (model.property(p).hasFlag("FK")) {
                             // "FK" flag forces formatting to id.
-                            plain[p_alias] = getId(m.get(p));
+                            plain[p_alias] = getId(model[p]);
                             continue;
                         } else {
-                            p_formatted = m.get(p);
+                            p_formatted = model[p];
                         }
                         plain[p_alias] = _serializeValue(p_formatted);
                     }
