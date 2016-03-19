@@ -2,6 +2,6 @@
     "plugins": ["plugins/markdown"],
     "opts": {
         "template": "./resources/jsdoc3-bootstrap",
-        "tutorials": "./guide"
+        "tutorials": "./doc"
     }
 }

@@ -4,7 +4,7 @@
  */
 define([
     "./ArrayCommon",
-    "./Array",
+    "./ArrayBase",
     "./ArraySet",
     "./SortedArraySet",
     "./EntitySet"

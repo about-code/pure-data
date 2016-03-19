@@ -1,14 +1,46 @@
 {
   "name": "pure-data",
   "version": "0.1.0",
-  "dependencies": {},
+  "dependencies": {
+    "es5-shim": "^4.4.0",
+    "es6-shim": "^0.33.13",
+    "dojo": "^2.0.0-alpha.6"
+  },
   "devDependencies": {
     "grunt": "~0.4.2",
     "grunt-bower-requirejs": "^2.0.0",
-    "grunt-contrib-copy": "^0.8.0",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-copy": "^0.8.2",
     "grunt-contrib-jshint": "~0.7.2",
     "grunt-contrib-requirejs": "^0.4.4",
-    "grunt-jsdoc": "^0.5.8",
-    "intern": "^2.1.1"
-  }
+    "grunt-ts": "^5.2.0",
+    "grunt-typedoc": "^0.2.3"
+  },
+  "jspm": {
+    "configFile": "config.system.js",
+    "dependencies": {
+      "systemjs": "npm:systemjs@^0.19.5"
+    },
+    "devDependencies": {
+      "typescript": "npm:typescript@^1.6.2"
+    }
+  },
+  "description": "Pure-Data is a data modeling library for JavaScript.",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devpunk/pure-data.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/devpunk/pure-data/issues"
+  },
+  "homepage": "https://github.com/devpunk/pure-data#readme"
 }

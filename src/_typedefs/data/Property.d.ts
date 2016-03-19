@@ -1,4 +1,4 @@
-interface Property {
+interface Field {
     default?:any;
 	plain?:string;
 	type?:string;

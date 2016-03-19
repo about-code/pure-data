@@ -6,3 +6,4 @@
 /resources/
 /src/data/decorator/**/*.js
 *.zip
+tsconfig.json

@@ -10,24 +10,24 @@ module.exports = function (grunt) {
             '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
             ' Licensed <%= props.license %> */\n',
         // Task configuration
-        concat: {
-            options: {
-                banner: '<%= banner %>',
-                stripBanners: true
+        watch: {
+            gruntfile: {
+                files: '<%= jshint.gruntfile.src %>',
+                tasks: ['jshint:gruntfile']
             },
-            dist: {
-                src: ['src/pure-data.js'],
-                dest: 'dist/pure-data.js'
+            lib_test: {
+                files: '<%= jshint.lib_test.src %>',
+                tasks: ['jshint:lib_test', 'qunit']
             }
         },
-        uglify: {
-            options: {
-                banner: '<%= banner %>'
+        ts: {
+            default : {
+                src: ["src/**/*.ts", "test/**/*.ts", "!node_modules/**/*.*", "!bower_components/**/*.*"],
+                tsconfig: {
+                    tsconfig: "./tsconfig.json",
+                    overwriteFilesGlob: true
+                }
             },
-            dist: {
-                src: '<%= concat.dist.dest %>',
-                dest: 'dist/pure-data.min.js'
-            }
         },
         jshint: {
             options: {
@@ -63,16 +63,6 @@ module.exports = function (grunt) {
                 }
             }
         },
-        watch: {
-            gruntfile: {
-                files: '<%= jshint.gruntfile.src %>',
-                tasks: ['jshint:gruntfile']
-            },
-            lib_test: {
-                files: '<%= jshint.lib_test.src %>',
-                tasks: ['jshint:lib_test', 'qunit']
-            }
-        },
         bower: {
             all: {
                 rjsConfig: "src/config.amd.js",
@@ -80,45 +70,6 @@ module.exports = function (grunt) {
                     baseUrl: "src",
                     exclude: []
                 }
-            }
-        },
-        dojo: {
-            dist: {
-              options: {
-                dojo: 'bower_components/dojo/dojo.js', // Path to dojo.js file in dojo source
-                load: 'build', // Optional: Utility to bootstrap (Default: 'build')
-                profile: 'build.profile.js', // Profile for build
-                profiles: [], // Optional: Array of Profiles for build
-                appConfigFile: '', // Optional: Config file for dojox/app
-                package: './', // Optional: Location to search package.json (Default: nothing)
-                packages: [], // Optional: Array of locations of package.json (Default: nothing)
-                require: '', // Optional: Module to require for the build (Default: nothing)
-                requires: [], // Optional: Array of modules to require for the build (Default: nothing)
-                cwd: './', // Directory to execute build within
-                dojoConfig: 'src/config.amd.js', // Optional: Location of dojoConfig (Default: null),
-                // Optional: Base Path to pass at the command line
-                // Takes precedence over other basePaths
-                // Default: null
-                basePath: ''
-              }
-            },
-            options: {
-              // You can also specify options to be used in all your tasks
-              dojo: 'bower_components/dojo/dojo.js', // Path to dojo.js file in dojo source
-              //load: 'build', // Optional: Utility to bootstrap (Default: 'build')
-              profile: 'build.profile.js', // Profile for build
-              profiles: [], // Optional: Array of Profiles for build
-              appConfigFile: '', // Optional: Config file for dojox/app
-              package: './', // Optional: Location to search package.json (Default: nothing)
-              packages: [], // Optional: Array of locations of package.json (Default: nothing)
-              require: '', // Optional: Module to require for the build (Default: nothing)
-              requires: [], // Optional: Array of modules to require for the build (Default: nothing)
-              cwd: './', // Directory to execute build within
-              dojoConfig: 'src/config.amd.js', // Optional: Location of dojoConfig (Default: null),
-              // Optional: Base Path to pass at the command line
-              // Takes precedence over other basePaths
-              // Default: null
-              basePath: ''
             }
         },
         requirejs: {
@@ -143,33 +94,49 @@ module.exports = function (grunt) {
                 }]
             }
         },
-        jsdoc : {
-            dist : {
-                src: ['src/**/*.js'],// 'test/**/*.js'],
+        typedoc: {
+            build: {
                 options: {
-                    destination: 'dist/doc',
-                    configure  : "jsdoc.json"
-                }
+                    module: 'amd',
+                    out: './doc/api',
+                    name: 'pure-data',
+                    target: 'es5',
+                    ignoreCompilerErrors: ""
+                },
+                src: ['./src/**/*.ts', '!./src/**/config.*', '!./src/**/*build.r.*']
             }
-        }
+        },
+        clean: {
+            options: {
+                force: true, // use until grunt was updated with https://github.com/gruntjs/grunt/issues/1469 fixed
+            },
+            ts: [
+                './src/**/*.js',
+                './src/**/*.map',
+                './test/unit/**/*.js',
+                '!./test/unit/**/module.js',
+                '!./test/unit/notImplemented.js'
+            ],
+            //filter: 'isFile',
+        },
     });
 
     // These plugins provide necessary tasks
-    /*grunt.loadNpmTasks('grunt-contrib-concat');*/
-    /*grunt.loadNpmTasks('grunt-contrib-uglify');*/
-    /*grunt.loadNpmTasks('grunt-contrib-watch');*/
+    grunt.loadNpmTasks("grunt-ts");
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
-    grunt.loadNpmTasks('grunt-dojo');
     grunt.loadNpmTasks('grunt-bower-requirejs');
-    grunt.loadNpmTasks('grunt-jsdoc');
+    grunt.loadNpmTasks('grunt-typedoc');
+    grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('intern');
 
     // Create tool-independent tasks and map them on tool-specific tasks.
-    grunt.registerTask('test',    [/*'jshint', */'intern']);
-    grunt.registerTask('build',   [/*'concat', 'uglify',*/'requirejs']);
-    grunt.registerTask('doc',     ['jsdoc']);
-    grunt.registerTask('dist',    ['copy']);
-    grunt.registerTask('default', ['test', 'build', 'doc', 'dist']);
+    grunt.registerTask("transpile", ["ts"]);
+    grunt.registerTask('test',      ['transpile', 'intern']);
+    grunt.registerTask('bundle',    ['requirejs']);
+    grunt.registerTask('doc',       ['typedoc']);
+    grunt.registerTask('dist',      ['copy']);
+    grunt.registerTask('clean-ts',     ['clean:ts'])
+    grunt.registerTask('default',   ['test', 'bundle', 'doc', 'dist']);
 };

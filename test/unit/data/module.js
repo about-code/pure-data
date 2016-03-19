@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2015 devpunk
  */
 define([
+    "./decorators",
     "./EntityManager",
     "./Model",
     "./Property",

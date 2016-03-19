@@ -41,8 +41,10 @@ define({
 	// loader
 	useLoader: {
 		'host-node': 'dojo/dojo',
-		'host-browser': 'node_modules/dojo/dojo.js'
+		'host-browser': './node_modules/dojo/dojo.js'
+	    //'host-browser': './jspm_packages/system.js'
 	},
+
 
 	// Configuration options for the module loader; any AMD configuration options supported by the specified AMD loader
 	// can be used here
@@ -50,15 +52,16 @@ define({
 		// Packages that should be registered with the loader in each testing environment
 		packages: [
 			{ name: 'pure', location: './src' },
+            { name: 'data', location: './src/data' },
+            { name: 'collection', location: './src/collection' },
+            { name: 'util', location: './src/util' },
 			{ name: 'dojo', location: './bower_components/dojo' },
 		],
 		paths: {
 			'rxjs': './bower_components/rxjs/dist/rx.lite',
-			"crossroads": "./bower_components/crossroads/dist/crossroads",
-			"signals": "./bower_components/crossroads/dev/src/signals",
-			"es6Promise": "./bower_components/es6-promise/promise"
+			"es6shim": ".node_modules/es6-shim/es6-shim.min"
 		},
-		deps: ["es6Promise"]
+		deps: ["es6shim"]
 	},
 
 	// Non-functional test suite(s) to run in each browser
