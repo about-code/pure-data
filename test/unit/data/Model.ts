@@ -440,10 +440,10 @@ registerSuite({
         }
     },
 
-    serialization__plain: function() {
+    serialization__alias: function() {
         @datatype("Person")
         class Person extends Model {
-            @field({ plain: "surname" })
+            @field({ alias: "surname" })
             familyname = "Simpson";
         }
         var manager = new EntityManager();
@@ -458,10 +458,10 @@ registerSuite({
      * Test for correct mapping from properties of plain entity data objects
      * onto the entity instance fields.
      */
-    deserialization__plain: function() {
+    deserialization__alias: function() {
         @datatype("Person")
         class Person extends Model {
-            @field({plain: "surname" })
+            @field({alias: "surname" })
             familyname = "";
         };
         var manager = new EntityManager();

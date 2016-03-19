@@ -118,7 +118,7 @@ export class Metadata {
     addField(field: Field) {
         var fieldName = field.get("name");
         this.$fields[fieldName] = field;
-        this.$aliases[field.get("plain") || fieldName] = fieldName;
+        this.$aliases[field.get("alias") || fieldName] = fieldName;
     }
 
     getField(fieldName: string) {

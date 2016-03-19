@@ -14,8 +14,8 @@ import {Model} from "pure/data/Model";
 @datatype("Person")
 class Person extends Model {
     @field({ignore: "GET,POST,DELETE"}) id = null;
-    @field({plain: "name"}) firstname = "";
-    @field({plain: "surname"}) lastname = "";
+    @field({alias: "name"}) firstname = "";
+    @field({alias: "surname"}) lastname = "";
     @field({type: "object", dtype: "_self", inverse: "children"}) parent = "";
     @field({type: "array",  dtype: "_self"}) children = [];
     @field({type: "object", dtype: "_self", flags: "FK"}) loves = null;

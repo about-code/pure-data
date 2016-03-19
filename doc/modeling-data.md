@@ -7,20 +7,16 @@ Pure-Data provides data modeling capabilities to create rich client-side models.
 
 An entity type declaration begins with an `@datatype(?:DatatypeDecoratorConfig|string)` class decorator. The decorator optionally takes a string or an object literal which defines type metadata such as the type name.
 
-|  Field  |   Type   |     Values     | Default | Purpose
-|:----------:|:--------:|----------------|---------|-----------
-| name       | string   |                |undefined| The type name
-| base       | Function |                |undefined| A constructor reference to a base class
-| idProperty | string   |                |"id"     | The name of the property which identifies a datatype instance
+|  Field (TypeScript-Syntax) |     Values     | Default | Purpose
+|:---------------------------|:---------------|---------|-----------
+| name: string               |                |undefined| The type name
+| base?: {[new(); T]}        |                |undefined| A constructor function to a base class
 
-If no name was given the decorator tries to parse the type name from the decorated class constructor using a regular expression.
-
-> The type name is used to refer to an entity type in situations where an imported type constructor creates a circular dependency. While circular dependencies can be handled by ES6 module loaders, the imported constructor reference may resolve to `undefined` when transpiling to ES5 and a module
-format such as AMD.
+> The provided datatype name can be read via `Metadata.about(myInstance).getClassName()`. Do not attempt to extract a class name yourself with a RegExp. Neither rely on a constructor function's `name` property. Both options yield a function's runtime name which is very likely to be different from a functions design-time name once you minify and *mangle* your code with a minifier such as Uglify-JS (see also http://lisperator.net/uglifyjs/mangle).
 
 ### @field
 
-Fields of entities can be configured with an object literal passed to a `@field(IFieldConfig)` decorator. The field metadata given, affects, e.g. how a field will be mapped from and to a *data object* for JSON (de-)serialization but also allows to establish bindings or *Associations* to keep related entities in sync. [Example 1](#exIntro) highlights some concepts of an entity definition and will be revisited in the coming sections
+Fields of entities can be configured with an object literal passed to a `@field(IFieldConfig)` decorator. Field metadata affects, e.g. how a field will be mapped from and to a *data object* for JSON (de-)serialization but also allows to establish bindings or *Associations* to keep related entities in sync. [Example 1](#exIntro) highlights some concepts of an entity definition and will be revisited in the coming sections
 
 
 *<a name="exIntro">Example 1</a>: Person.js*
@@ -33,22 +29,23 @@ import {Thing} from "foo/Thing";
 @datatype("Person")
 class Person extends Model {
 
+    @id
     @field({ignore: 'POST'})
     id = null;
 
     @field()
     firstname = "";
 
-    @field({plain: "surname"})
+    @field({alias: "surname"})
     lastname = "";
 
     @field({type: "array", dtype: "Person"})
     children = [];
 
-    @field({plain: "partnerId", type: "number", dtype: "Person", flags: "FK"})
+    @field({alias: "partnerId", type: "number", dtype: "Person", flags: "FK"})
     loves = null;
 
-    @field({plain: "groupId", type: "number", dtype: Group, flags: "FK"})
+    @field({alias: "groupId", type: "number", dtype: Group, flags: "FK"})
     memberOf = null;
 
     @field({type: "array", dtype: Thing, flags: "FK"})
@@ -62,17 +59,16 @@ The following field configuration options are available:
 |  Use Case  |  Property  |   Type   | Allowed Values | Default | Purpose
 |:----------:|:----------:|:--------:|----------------|---------|-----------
 |Associations| `type`     | string   | string, number, object, array, any | any | JSON-Schema compatible type used to validate a field value. A combination of `type="array"` and `dtype="T"` will cause an array set to be created.
-|Associations| `dtype`    | function, string | function, entity-name | null | A constructor reference or unique entity name.
+|Associations| `dtype`    | function, string | function, entity-name | null | A constructor reference or unique datatype name (see @datatype()).  Should be a string when an import of the related class establishes a circular dependency. While circular dependencies can be handled by ES6 module loaders, the imported constructor reference may resolve to `undefined` when transpiling to a module format such as AMD.
 |Associations| `inverse` | string || null | Name of the inverse field on the entity type denoted by `dtype`. Creates a directed update link from source field to inverse field. Should be used together with `type`. A value of `type="array"` will cause a many-to-... link to be created. Example: Assume, on the type level we define a field `F: { type="array", dtype="X", inverse="q"}` for entities of type *E*. *q* is the name of a field of type *X*. On the instance level, adding some entity *x* to *f* of *e* causes the inverse field *q* of *x* to be updated such that it points to *e*. If *q* was an array (set), then the update would insert *e* into *q* (if not yet there).
 |Serialization| `ignore`   | boolean, string   | true, false, GET,POST,PUT,DELETE |false| Indicates wether a field should be serialized and deserialized. Fields can be ignored for all or for particular REST (CRUD) scenarios, only.
 |Serialization| `formatter`| function |                | null | Function or name of an entity method with signature `f(propName)`, used to format the field's value when the entity is about to be serialized. A return value of `undefined` will exclude the field from serialization.
 |Serialization| `parser` | function |                | null | Function or name of a entity method, used to parse a value when its owning entity is instantiated from a plain object (deserialization).
-|Serialization| `plain`   | string   |                | null | The name of the field in the entity's plain object representation. Only required if the names differ. An empty string will prevent a field from being serialized in any scenario.
+|Serialization| `alias`   | string   |                | null | The name of the field in the entity's plain object representation. Only required if the names differ. An empty string will prevent a field from being serialized in any scenario.
 |Computed Fields| `dependsOn`| string[] || null | Names of the fields a computed field is created from.
 |Computed Fields| `getValue`| function |                | null | A getter to compute a dynamic value.
 |Computed Fields| `setValue`| function |                | null | A setter to set a computed field. Expected to return the new computed value to be set, rather than setting it directly.
 |Misc.| `flags`    | string   | FK | "" | A string with comma-separated flags, each flag enabling particular treatment.
-
 
 ### Entity Management
 

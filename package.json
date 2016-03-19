@@ -17,7 +17,7 @@
     "grunt-typedoc": "^0.2.3"
   },
   "jspm": {
-    "configFile": "config.system.js",
+    "configFile": "src/config.ts",
     "dependencies": {
       "systemjs": "npm:systemjs@^0.19.5"
     },
@@ -31,6 +31,7 @@
     "test": "test"
   },
   "scripts": {
+    "jspm": "jspm",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

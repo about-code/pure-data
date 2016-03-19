@@ -162,7 +162,7 @@ export class Field extends Observable {
             getValue: null,
             setValue: null,
             // mapping
-            plain: null,
+            alias: null,
             formatter: null,
             parser: null,
             ignore: false,

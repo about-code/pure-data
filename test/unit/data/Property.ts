@@ -24,7 +24,7 @@ registerSuite({
 		assert.strictEqual(p1.get("type"), "any");
 		assert.strictEqual(p1.get("dtype"), null);
 		assert.strictEqual(p1.get("flags"), "");
-		assert.strictEqual(p1.get("plain"), null);
+		assert.strictEqual(p1.get("alias"), null);
 		assert.strictEqual(p1.get("formatter"), null);
 		assert.strictEqual(p1.get("parser"), null);
 		assert.strictEqual(p1.get("validator"), null);
@@ -37,7 +37,7 @@ registerSuite({
 		assert.strictEqual(p2.get("type"), "any");
 		assert.strictEqual(p2.get("dtype"), null);
 		assert.strictEqual(p2.get("flags"), "");
-		assert.strictEqual(p2.get("plain"), null);
+		assert.strictEqual(p2.get("alias"), null);
 		assert.strictEqual(p2.get("formatter"), null);
 		assert.strictEqual(p2.get("parser"), null);
 		assert.strictEqual(p2.get("validator"), null);

@@ -104,7 +104,7 @@ export class ObjectMapper {
                         if (f_ignore === true || (type.isString(f_ignore) && f_ignore.indexOf(opts.scenario) >= 0)) {
                             continue;
                         } else {
-                            f_alias = field.get("plain");
+                            f_alias = field.get("alias");
                             f_formatter = field.get("formatter");
                             if (f_alias === "") {
                                 continue;    // an empty alias is equivalent to "never (de-)serialize"

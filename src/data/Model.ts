@@ -29,13 +29,13 @@ var log = Log.getLogger("data/Model");
  *  class Person extends Model {
  *
  *     @id
- *     @field(plain: "ID")
+ *     @field(alias: "ID")
  *     id: string;
  *
- *     @field(plain: "first_name")
+ *     @field(alias: "first_name")
  *     firstName: string;
  *
- *     @field(plain: "last_name")
+ *     @field(alias: "last_name")
  *     lastName:string;
  *
  *     constructor() {
