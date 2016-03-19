@@ -55,11 +55,11 @@ define({
             { name: 'data', location: './src/data' },
             { name: 'collection', location: './src/collection' },
             { name: 'util', location: './src/util' },
-			{ name: 'dojo', location: './bower_components/dojo' },
+			{ name: 'dojo', location: './node_modules/dojo' },
 		],
 		paths: {
-			'rxjs': './bower_components/rxjs/dist/rx.lite',
-			"es6shim": ".node_modules/es6-shim/es6-shim.min"
+			'rxjs': './node_modules/rx/dist/rx.lite.min',
+			"es6shim": "./node_modules/es6-shim/es6-shim.min"
 		},
 		deps: ["es6shim"]
 	},

@@ -1,10 +1,10 @@
 var require = {
     async: true,
     paths: {
-        dojo: "../bower_components/dojo",
-        rxjs: "../bower_components/rxjs/dist/rx.lite.min",
+        dojo: "../node_modules/dojo",
+        rxjs: "../node_modules/rxjs/bundles/Rx.min",
         es6shim: "../node_modules/es6-shim/es6-shim.min",
-        rx: "../bower_components/rxjs/dist/rx.min"
+        rx: "../node_modules/rx/dist/rx.lite.min"
     },
     packages: [
         { name: "pure", location: "./" },

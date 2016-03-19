@@ -2,9 +2,10 @@
   "name": "pure-data",
   "version": "0.1.0",
   "dependencies": {
+    "dojo": "^1.10.4",
     "es5-shim": "^4.4.0",
     "es6-shim": "^0.33.13",
-    "dojo": "^2.0.0-alpha.6"
+    "rx": "^4.1.0"
   },
   "devDependencies": {
     "grunt": "~0.4.2",
@@ -14,24 +15,16 @@
     "grunt-contrib-jshint": "~0.7.2",
     "grunt-contrib-requirejs": "^0.4.4",
     "grunt-ts": "^5.2.0",
-    "grunt-typedoc": "^0.2.3"
+    "grunt-typedoc": "^0.2.3",
+    "typescript": "^1.8.9"
   },
-  "jspm": {
-    "configFile": "src/config.ts",
-    "dependencies": {
-      "systemjs": "npm:systemjs@^0.19.5"
-    },
-    "devDependencies": {
-      "typescript": "npm:typescript@^1.6.2"
-    }
-  },
-  "description": "Pure-Data is a data modeling library for JavaScript.",
+  "description": "pure-data is a data model library for JavaScript",
   "main": "index.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "jspm": "jspm",
+    "task": "grunt",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

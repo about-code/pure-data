@@ -1,3 +1,4 @@
+var tsc = require("typescript");
 module.exports = function (grunt) {
     'use strict';
     // Project configuration
@@ -21,6 +22,9 @@ module.exports = function (grunt) {
             }
         },
         ts: {
+            options: {
+               compiler: './node_modules/typescript/bin/tsc'
+            },
             default : {
                 src: ["src/**/*.ts", "test/**/*.ts", "!node_modules/**/*.*", "!bower_components/**/*.*"],
                 tsconfig: {
@@ -118,7 +122,7 @@ module.exports = function (grunt) {
                 '!./test/unit/notImplemented.js'
             ],
             //filter: 'isFile',
-        },
+        }
     });
 
     // These plugins provide necessary tasks
@@ -132,11 +136,14 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('intern');
 
     // Create tool-independent tasks and map them on tool-specific tasks.
-    grunt.registerTask("transpile", ["ts"]);
+    grunt.registerTask("transpile", function() {
+        grunt.task.run("ts");
+        grunt.log.writeln("TypeScript-Version: ", tsc.version);
+    });
     grunt.registerTask('test',      ['transpile', 'intern']);
     grunt.registerTask('bundle',    ['requirejs']);
     grunt.registerTask('doc',       ['typedoc']);
     grunt.registerTask('dist',      ['copy']);
-    grunt.registerTask('clean-ts',     ['clean:ts'])
+    grunt.registerTask('clean-ts',  ['clean:ts'])
     grunt.registerTask('default',   ['test', 'bundle', 'doc', 'dist']);
 };
