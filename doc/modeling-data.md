@@ -5,12 +5,12 @@ Pure-Data provides data modeling capabilities to create rich client-side models.
 
 ### @datatype
 
-An entity type declaration begins with an `@datatype(?:DatatypeDecoratorConfig|string)` class decorator. The decorator optionally takes a string or an object literal which defines type metadata such as the type name.
+An entity type declaration begins with an `@datatype(meta:DatatypeDecoratorConfig|string)` class decorator. The decorator takes a class name (string) or an object literal which defines type metadata.
 
 |  Field (TypeScript-Syntax) |     Values     | Default | Purpose
 |:---------------------------|:---------------|---------|-----------
 | name: string               |                |undefined| The type name
-| base?: {[new(); T]}        |                |undefined| A constructor function to a base class
+| base?: {new(); T}          |                |undefined| A constructor function to a base class
 
 > The provided datatype name can be read via `Metadata.about(myInstance).getClassName()`. Do not attempt to extract a class name yourself with a RegExp. Neither rely on a constructor function's `name` property. Both options yield a function's runtime name which is very likely to be different from a functions design-time name once you minify and *mangle* your code with a minifier such as Uglify-JS (see also http://lisperator.net/uglifyjs/mangle).
 
