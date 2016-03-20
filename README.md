@@ -31,4 +31,4 @@ for serious things. As alternatives you might want to have a look at
 - Dojo
 
 #### Getting Started:
-- Have a look at the [Guide](https://www.github.com/devpunk/pure-data/doc/contents.md)
+- Have a look at the [Guide](https://www.github.com/about-code/pure-data/doc/contents.md)

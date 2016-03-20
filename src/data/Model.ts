@@ -57,7 +57,7 @@ var log = Log.getLogger("data/Model");
  * prepended with an underscore ('_') they won't be serialized.
  *
  * @license MIT License (http://opensource.org/licenses/MIT)
- * @copyright Copyright (c) 2015 devpunk
+ * @copyright Copyright (c) 2015 Andrew Martin
  */
 export class Model extends Entity {
 

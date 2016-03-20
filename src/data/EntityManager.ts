@@ -22,7 +22,7 @@ import {IContext} from "./IContext";
  * object graph with proper object references.
  *
  * @license MIT License (http://opensource.org/licenses/MIT)
- * @copyright Copyright (c) 2015 devpunk
+ * @copyright Copyright (c) 2015 Andrew Martin
  */
 export class EntityManager implements IContext {
 

@@ -102,7 +102,7 @@ export interface IFieldConfig {
  * its owner is destroyed, except if *owner* is an instance of [[Model]].
  *
  * @license MIT License (http://opensource.org/licenses/MIT)
- * @copyright Copyright (c) 2015 devpunk
+ * @copyright Copyright (c) 2015 Andrew Martin
  * @see [[Model]]
  */
 export class Field extends Observable {

@@ -29,12 +29,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/devpunk/pure-data.git"
+    "url": "git+https://github.com/about-code/pure-data.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/devpunk/pure-data/issues"
+    "url": "https://github.com/about-code/pure-data/issues"
   },
-  "homepage": "https://github.com/devpunk/pure-data#readme"
+  "homepage": "https://github.com/about-code/pure-data#readme"
 }

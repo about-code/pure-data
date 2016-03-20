@@ -115,15 +115,17 @@ Associations have a unique ID which is generated using the template `A:pA:B:pB` 
 *<a name="exOneToOne">Example 3a</a>: modeling a bidirectional One-to-One relationship*
 ```typescript
 // foo/Group.js
-@entity("Group")
+@datatype("Group")
 class Group extends Model {
+    @id
     id = "";
     @field({type: "object", dtype: "Person", inverse: "memberOf"})
     hasMember = null;
 }
 // foo/Person.js
-@entity("Person")
+@datatype("Person")
 class Person extends Model {
+    @id
     id = "";
     @field({type: "object", dtype: "Group", inverse: "hasMember"})
     memberOf = null;
@@ -133,15 +135,17 @@ class Person extends Model {
 *<a name="exOneToMany">Example 3b</a>: modeling a bidirectional One-to-Many relationship: "One group may have n members"*
 ```typescript
 // foo/Group.js
-@entity("Group")
+@datatype("Group")
 class Group extends Model {
+    @id
     id = null;
     @field({type: "array", dtype: "Person", inverse: "memberOf", flags: "FK"})
     hasMember = [];
 }
 // foo/Person.js
-@entity("Person")
+@datatype("Person")
 class Person extends Model {
+    @id
     id = null;
     @field({type: "object", dtype: "Group", inverse: "hasMember"})
     memberOf = null;
@@ -153,15 +157,17 @@ You may noticed that in [example 3b](#exOneToMany) we used the `FK` flag. It is 
 ```typescript
 
 // foo/Group.js
-@entity("Group")
+@datatype("Group")
 class Group extends Model {
+    @id
     id = null;
     @field({type: "array", dtype: "Person", inverse: "memberOf", flags: "FK"})
     hasMembers = [];
 }
 // foo/Person.js
-@entity("Person")
+@datatype("Person")
 class Person extends Model {
+    @id
     id = null;
     @field({type: "array", dtype: "Group", inverse: "hasMembers"})
     memberOf = [];

@@ -16,7 +16,7 @@ var log = Log.getLogger("data/Entity");
  * context.
  *
  * @license MIT License (http://opensource.org/licenses/MIT)
- * @copyright Copyright (c) 2015 devpunk
+ * @copyright Copyright (c) 2015 Andrew Martin
  */
 
 export class Entity extends Destroyable {

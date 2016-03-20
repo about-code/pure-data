@@ -21,7 +21,7 @@ var loglevel:LogLevel = config.loglevel;
  * log.warn("This is a warning.") // => "myModule: This is my warning."
  * ```
  * @license MIT License (http://opensource.org/licenses/MIT)
- * @copyright Copyright (c) 2015 devpunk
+ * @copyright Copyright (c) 2015 Andrew Martin
  */
 export class Log {
 
